@@ -102,116 +102,6 @@ class CameraViewController: UIViewController {
 
   // MARK: On-Device Detections
 
-  private func scanBarcodesOnDevice(in image: VisionImage, width: CGFloat, height: CGFloat) {
-    // Define the options for a barcode detector.
-    let format = BarcodeFormat.all
-    let barcodeOptions = BarcodeScannerOptions(formats: format)
-
-    // Create a barcode scanner.
-    let barcodeScanner = BarcodeScanner.barcodeScanner(options: barcodeOptions)
-    var barcodes: [Barcode]
-    do {
-      barcodes = try barcodeScanner.results(in: image)
-    } catch let error {
-      print("Failed to scan barcodes with error: \(error.localizedDescription).")
-      return
-    }
-    weak var weakSelf = self
-    DispatchQueue.main.sync {
-      guard let strongSelf = weakSelf else {
-        print("Self is nil!")
-        return
-      }
-      strongSelf.updatePreviewOverlayViewWithLastFrame()
-      strongSelf.removeDetectionAnnotations()
-    }
-    guard !barcodes.isEmpty else {
-      print("Barcode scanner returrned no results.")
-      return
-    }
-    DispatchQueue.main.sync {
-      guard let strongSelf = weakSelf else {
-        print("Self is nil!")
-        return
-      }
-      for barcode in barcodes {
-        let normalizedRect = CGRect(
-          x: barcode.frame.origin.x / width,
-          y: barcode.frame.origin.y / height,
-          width: barcode.frame.size.width / width,
-          height: barcode.frame.size.height / height
-        )
-        let convertedRect = strongSelf.previewLayer.layerRectConverted(
-          fromMetadataOutputRect: normalizedRect
-        )
-        UIUtilities.addRectangle(
-          convertedRect,
-          to: strongSelf.annotationOverlayView,
-          color: UIColor.green
-        )
-        let label = UILabel(frame: convertedRect)
-        label.text = barcode.rawValue
-        label.adjustsFontSizeToFitWidth = true
-        strongSelf.rotate(label, orientation: image.orientation)
-        strongSelf.annotationOverlayView.addSubview(label)
-      }
-    }
-  }
-
-  private func detectFacesOnDevice(in image: VisionImage, width: CGFloat, height: CGFloat) {
-    // When performing latency tests to determine ideal detection settings, run the app in 'release'
-    // mode to get accurate performance metrics.
-    let options = FaceDetectorOptions()
-    options.landmarkMode = .none
-    options.contourMode = .all
-    options.classificationMode = .none
-    options.performanceMode = .fast
-    let faceDetector = FaceDetector.faceDetector(options: options)
-    var faces: [Face]
-    do {
-      faces = try faceDetector.results(in: image)
-    } catch let error {
-      print("Failed to detect faces with error: \(error.localizedDescription).")
-      return
-    }
-    weak var weakSelf = self
-    DispatchQueue.main.sync {
-      guard let strongSelf = weakSelf else {
-        print("Self is nil!")
-        return
-      }
-      strongSelf.updatePreviewOverlayViewWithLastFrame()
-      strongSelf.removeDetectionAnnotations()
-    }
-    guard !faces.isEmpty else {
-      print("On-Device face detector returned no results.")
-      return
-    }
-    DispatchQueue.main.sync {
-      guard let strongSelf = weakSelf else {
-        print("Self is nil!")
-        return
-      }
-      for face in faces {
-        let normalizedRect = CGRect(
-          x: face.frame.origin.x / width,
-          y: face.frame.origin.y / height,
-          width: face.frame.size.width / width,
-          height: face.frame.size.height / height
-        )
-        let standardizedRect = strongSelf.previewLayer.layerRectConverted(
-          fromMetadataOutputRect: normalizedRect
-        ).standardized
-        UIUtilities.addRectangle(
-          standardizedRect,
-          to: strongSelf.annotationOverlayView,
-          color: UIColor.green
-        )
-        strongSelf.addContours(for: face, width: width, height: height)
-      }
-    }
-  }
-
   private func detectPose(in image: VisionImage, width: CGFloat, height: CGFloat) {
     if let poseDetector = self.poseDetector {
       var poses: [Pose]
@@ -253,245 +143,6 @@ class CameraViewController: UIViewController {
           )
           strongSelf.annotationOverlayView.addSubview(poseOverlayView)
         }
-      }
-    }
-  }
-
-  private func detectSegmentationMask(in image: VisionImage, sampleBuffer: CMSampleBuffer) {
-    guard let segmenter = self.segmenter else {
-      return
-    }
-    var mask: SegmentationMask
-    do {
-      mask = try segmenter.results(in: image)
-    } catch let error {
-      print("Failed to perform segmentation with error: \(error.localizedDescription).")
-      return
-    }
-    weak var weakSelf = self
-    DispatchQueue.main.sync {
-      guard let strongSelf = weakSelf else {
-        print("Self is nil!")
-        return
-      }
-      strongSelf.removeDetectionAnnotations()
-
-      guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
-        print("Failed to get image buffer from sample buffer.")
-        return
-      }
-
-      UIUtilities.applySegmentationMask(
-        mask: mask, to: imageBuffer,
-        backgroundColor: UIColor.purple.withAlphaComponent(Constant.segmentationMaskAlpha),
-        foregroundColor: nil)
-      strongSelf.updatePreviewOverlayViewWithImageBuffer(imageBuffer)
-    }
-
-  }
-
-  private func recognizeTextOnDevice(in image: VisionImage, width: CGFloat, height: CGFloat) {
-    var recognizedText: Text
-    do {
-      recognizedText = try TextRecognizer.textRecognizer().results(in: image)
-    } catch let error {
-      print("Failed to recognize text with error: \(error.localizedDescription).")
-      return
-    }
-    weak var weakSelf = self
-    DispatchQueue.main.sync {
-      guard let strongSelf = weakSelf else {
-        print("Self is nil!")
-        return
-      }
-      strongSelf.updatePreviewOverlayViewWithLastFrame()
-      strongSelf.removeDetectionAnnotations()
-
-      // Blocks.
-      for block in recognizedText.blocks {
-        let points = strongSelf.convertedPoints(
-          from: block.cornerPoints, width: width, height: height)
-        UIUtilities.addShape(
-          withPoints: points,
-          to: strongSelf.annotationOverlayView,
-          color: UIColor.purple
-        )
-
-        // Lines.
-        for line in block.lines {
-          let points = strongSelf.convertedPoints(
-            from: line.cornerPoints, width: width, height: height)
-          UIUtilities.addShape(
-            withPoints: points,
-            to: strongSelf.annotationOverlayView,
-            color: UIColor.orange
-          )
-
-          // Elements.
-          for element in line.elements {
-            let normalizedRect = CGRect(
-              x: element.frame.origin.x / width,
-              y: element.frame.origin.y / height,
-              width: element.frame.size.width / width,
-              height: element.frame.size.height / height
-            )
-            let convertedRect = strongSelf.previewLayer.layerRectConverted(
-              fromMetadataOutputRect: normalizedRect
-            )
-            UIUtilities.addRectangle(
-              convertedRect,
-              to: strongSelf.annotationOverlayView,
-              color: UIColor.green
-            )
-            let label = UILabel(frame: convertedRect)
-            label.text = element.text
-            label.adjustsFontSizeToFitWidth = true
-            strongSelf.rotate(label, orientation: image.orientation)
-            strongSelf.annotationOverlayView.addSubview(label)
-          }
-        }
-      }
-    }
-  }
-
-  private func detectLabels(
-    in visionImage: VisionImage,
-    width: CGFloat,
-    height: CGFloat,
-    shouldUseCustomModel: Bool
-  ) {
-    var options: CommonImageLabelerOptions!
-    if shouldUseCustomModel {
-      guard
-        let localModelFilePath = Bundle.main.path(
-          forResource: Constant.localModelFile.name,
-          ofType: Constant.localModelFile.type
-        )
-      else {
-        print("On-Device label detection failed because custom model was not found.")
-        return
-      }
-      let localModel = LocalModel(path: localModelFilePath)
-      options = CustomImageLabelerOptions(localModel: localModel)
-    } else {
-      options = ImageLabelerOptions()
-    }
-    options.confidenceThreshold = NSNumber(floatLiteral: Constant.labelConfidenceThreshold)
-    let onDeviceLabeler = ImageLabeler.imageLabeler(options: options)
-    weak var weakSelf = self
-    let labels: [ImageLabel]
-    do {
-      labels = try onDeviceLabeler.results(in: visionImage)
-    } catch let error {
-      let errorString = error.localizedDescription
-      print("On-Device label detection failed with error: \(errorString)")
-      return
-    }
-    let resultsText = labels.map { label -> String in
-      return "Label: \(label.text), Confidence: \(label.confidence), Index: \(label.index)"
-    }.joined(separator: "\n")
-
-    DispatchQueue.main.sync {
-      guard let strongSelf = weakSelf else {
-        print("Self is nil!")
-        return
-      }
-      strongSelf.updatePreviewOverlayViewWithLastFrame()
-      strongSelf.removeDetectionAnnotations()
-    }
-    guard resultsText.count != 0 else { return }
-
-    DispatchQueue.main.sync {
-      guard let strongSelf = weakSelf else {
-        print("Self is nil!")
-        return
-      }
-      let frame = strongSelf.view.frame
-      let normalizedRect = CGRect(
-        x: Constant.imageLabelResultFrameX,
-        y: Constant.imageLabelResultFrameY,
-        width: Constant.imageLabelResultFrameWidth,
-        height: Constant.imageLabelResultFrameHeight
-      )
-      let standardizedRect = strongSelf.previewLayer.layerRectConverted(
-        fromMetadataOutputRect: normalizedRect
-      ).standardized
-      UIUtilities.addRectangle(
-        standardizedRect,
-        to: strongSelf.annotationOverlayView,
-        color: UIColor.gray
-      )
-      let uiLabel = UILabel(frame: standardizedRect)
-      uiLabel.text = resultsText
-      uiLabel.numberOfLines = 0
-      uiLabel.adjustsFontSizeToFitWidth = true
-      strongSelf.rotate(uiLabel, orientation: visionImage.orientation)
-      strongSelf.annotationOverlayView.addSubview(uiLabel)
-    }
-  }
-
-  private func detectObjectsOnDevice(
-    in image: VisionImage,
-    width: CGFloat,
-    height: CGFloat,
-    options: CommonObjectDetectorOptions
-  ) {
-    let detector = ObjectDetector.objectDetector(options: options)
-    var objects: [Object]
-    do {
-      objects = try detector.results(in: image)
-    } catch let error {
-      print("Failed to detect objects with error: \(error.localizedDescription).")
-      return
-    }
-    weak var weakSelf = self
-    DispatchQueue.main.sync {
-      guard let strongSelf = weakSelf else {
-        print("Self is nil!")
-        return
-      }
-      strongSelf.updatePreviewOverlayViewWithLastFrame()
-      strongSelf.removeDetectionAnnotations()
-    }
-    guard !objects.isEmpty else {
-      print("On-Device object detector returned no results.")
-      return
-    }
-
-    DispatchQueue.main.sync {
-      guard let strongSelf = weakSelf else {
-        print("Self is nil!")
-        return
-      }
-      for object in objects {
-        let normalizedRect = CGRect(
-          x: object.frame.origin.x / width,
-          y: object.frame.origin.y / height,
-          width: object.frame.size.width / width,
-          height: object.frame.size.height / height
-        )
-        let standardizedRect = strongSelf.previewLayer.layerRectConverted(
-          fromMetadataOutputRect: normalizedRect
-        ).standardized
-        UIUtilities.addRectangle(
-          standardizedRect,
-          to: strongSelf.annotationOverlayView,
-          color: UIColor.green
-        )
-        let label = UILabel(frame: standardizedRect)
-        var description = ""
-        if let trackingID = object.trackingID {
-          description += "Object ID: " + trackingID.stringValue + "\n"
-        }
-        description += object.labels.enumerated().map { (index, label) in
-          "Label \(index): \(label.text), \(label.confidence), \(label.index)"
-        }.joined(separator: "\n")
-
-        label.text = description
-        label.numberOfLines = 0
-        label.adjustsFontSizeToFitWidth = true
-        strongSelf.rotate(label, orientation: image.orientation)
-        strongSelf.annotationOverlayView.addSubview(label)
       }
     }
   }
@@ -613,32 +264,6 @@ class CameraViewController: UIViewController {
     return nil
   }
 
-  private func presentDetectorsAlertController() {
-    let alertController = UIAlertController(
-      title: Constant.alertControllerTitle,
-      message: Constant.alertControllerMessage,
-      preferredStyle: .alert
-    )
-    weak var weakSelf = self
-    detectors.forEach { detectorType in
-      let action = UIAlertAction(title: detectorType.rawValue, style: .default) {
-        [unowned self] (action) in
-        guard let value = action.title else { return }
-        guard let detector = Detector(rawValue: value) else { return }
-        guard let strongSelf = weakSelf else {
-          print("Self is nil!")
-          return
-        }
-        strongSelf.currentDetector = detector
-        strongSelf.removeDetectionAnnotations()
-      }
-      if detectorType.rawValue == self.currentDetector.rawValue { action.isEnabled = false }
-      alertController.addAction(action)
-    }
-    alertController.addAction(UIAlertAction(title: Constant.cancelActionTitleText, style: .cancel))
-    present(alertController, animated: true)
-  }
-
   private func removeDetectionAnnotations() {
     for annotationView in annotationOverlayView.subviews {
       annotationView.removeFromSuperview()
@@ -688,161 +313,6 @@ class CameraViewController: UIViewController {
     return normalizedPoint
   }
 
-  private func addContours(for face: Face, width: CGFloat, height: CGFloat) {
-    // Face
-    if let faceContour = face.contour(ofType: .face) {
-      for point in faceContour.points {
-        let cgPoint = normalizedPoint(fromVisionPoint: point, width: width, height: height)
-        UIUtilities.addCircle(
-          atPoint: cgPoint,
-          to: annotationOverlayView,
-          color: UIColor.blue,
-          radius: Constant.smallDotRadius
-        )
-      }
-    }
-
-    // Eyebrows
-    if let topLeftEyebrowContour = face.contour(ofType: .leftEyebrowTop) {
-      for point in topLeftEyebrowContour.points {
-        let cgPoint = normalizedPoint(fromVisionPoint: point, width: width, height: height)
-        UIUtilities.addCircle(
-          atPoint: cgPoint,
-          to: annotationOverlayView,
-          color: UIColor.orange,
-          radius: Constant.smallDotRadius
-        )
-      }
-    }
-    if let bottomLeftEyebrowContour = face.contour(ofType: .leftEyebrowBottom) {
-      for point in bottomLeftEyebrowContour.points {
-        let cgPoint = normalizedPoint(fromVisionPoint: point, width: width, height: height)
-        UIUtilities.addCircle(
-          atPoint: cgPoint,
-          to: annotationOverlayView,
-          color: UIColor.orange,
-          radius: Constant.smallDotRadius
-        )
-      }
-    }
-    if let topRightEyebrowContour = face.contour(ofType: .rightEyebrowTop) {
-      for point in topRightEyebrowContour.points {
-        let cgPoint = normalizedPoint(fromVisionPoint: point, width: width, height: height)
-        UIUtilities.addCircle(
-          atPoint: cgPoint,
-          to: annotationOverlayView,
-          color: UIColor.orange,
-          radius: Constant.smallDotRadius
-        )
-      }
-    }
-    if let bottomRightEyebrowContour = face.contour(ofType: .rightEyebrowBottom) {
-      for point in bottomRightEyebrowContour.points {
-        let cgPoint = normalizedPoint(fromVisionPoint: point, width: width, height: height)
-        UIUtilities.addCircle(
-          atPoint: cgPoint,
-          to: annotationOverlayView,
-          color: UIColor.orange,
-          radius: Constant.smallDotRadius
-        )
-      }
-    }
-
-    // Eyes
-    if let leftEyeContour = face.contour(ofType: .leftEye) {
-      for point in leftEyeContour.points {
-        let cgPoint = normalizedPoint(fromVisionPoint: point, width: width, height: height)
-        UIUtilities.addCircle(
-          atPoint: cgPoint,
-          to: annotationOverlayView,
-          color: UIColor.cyan,
-          radius: Constant.smallDotRadius
-        )
-      }
-    }
-    if let rightEyeContour = face.contour(ofType: .rightEye) {
-      for point in rightEyeContour.points {
-        let cgPoint = normalizedPoint(fromVisionPoint: point, width: width, height: height)
-        UIUtilities.addCircle(
-          atPoint: cgPoint,
-          to: annotationOverlayView,
-          color: UIColor.cyan,
-          radius: Constant.smallDotRadius
-        )
-      }
-    }
-
-    // Lips
-    if let topUpperLipContour = face.contour(ofType: .upperLipTop) {
-      for point in topUpperLipContour.points {
-        let cgPoint = normalizedPoint(fromVisionPoint: point, width: width, height: height)
-        UIUtilities.addCircle(
-          atPoint: cgPoint,
-          to: annotationOverlayView,
-          color: UIColor.red,
-          radius: Constant.smallDotRadius
-        )
-      }
-    }
-    if let bottomUpperLipContour = face.contour(ofType: .upperLipBottom) {
-      for point in bottomUpperLipContour.points {
-        let cgPoint = normalizedPoint(fromVisionPoint: point, width: width, height: height)
-        UIUtilities.addCircle(
-          atPoint: cgPoint,
-          to: annotationOverlayView,
-          color: UIColor.red,
-          radius: Constant.smallDotRadius
-        )
-      }
-    }
-    if let topLowerLipContour = face.contour(ofType: .lowerLipTop) {
-      for point in topLowerLipContour.points {
-        let cgPoint = normalizedPoint(fromVisionPoint: point, width: width, height: height)
-        UIUtilities.addCircle(
-          atPoint: cgPoint,
-          to: annotationOverlayView,
-          color: UIColor.red,
-          radius: Constant.smallDotRadius
-        )
-      }
-    }
-    if let bottomLowerLipContour = face.contour(ofType: .lowerLipBottom) {
-      for point in bottomLowerLipContour.points {
-        let cgPoint = normalizedPoint(fromVisionPoint: point, width: width, height: height)
-        UIUtilities.addCircle(
-          atPoint: cgPoint,
-          to: annotationOverlayView,
-          color: UIColor.red,
-          radius: Constant.smallDotRadius
-        )
-      }
-    }
-
-    // Nose
-    if let noseBridgeContour = face.contour(ofType: .noseBridge) {
-      for point in noseBridgeContour.points {
-        let cgPoint = normalizedPoint(fromVisionPoint: point, width: width, height: height)
-        UIUtilities.addCircle(
-          atPoint: cgPoint,
-          to: annotationOverlayView,
-          color: UIColor.yellow,
-          radius: Constant.smallDotRadius
-        )
-      }
-    }
-    if let noseBottomContour = face.contour(ofType: .noseBottom) {
-      for point in noseBottomContour.points {
-        let cgPoint = normalizedPoint(fromVisionPoint: point, width: width, height: height)
-        UIUtilities.addCircle(
-          atPoint: cgPoint,
-          to: annotationOverlayView,
-          color: UIColor.yellow,
-          radius: Constant.smallDotRadius
-        )
-      }
-    }
-  }
-
   /// Resets any detector instances which use a conventional lifecycle paradigm. This method is
   /// expected to be invoked on the AVCaptureOutput queue - the same queue on which detection is
   /// run.
@@ -856,9 +326,6 @@ class CameraViewController: UIViewController {
     case .pose, .poseAccurate:
       self.poseDetector = nil
       break
-    case .segmentationSelfie:
-      self.segmenter = nil
-      break
     default:
       break
     }
@@ -869,13 +336,7 @@ class CameraViewController: UIViewController {
       let options = activeDetector == .pose ? PoseDetectorOptions() : AccuratePoseDetectorOptions()
       self.poseDetector = PoseDetector.poseDetector(options: options)
       break
-    case .segmentationSelfie:
-      // The `options.segmenterMode` defaults to `.stream`
-      let options = SelfieSegmenterOptions()
-      self.segmenter = Segmenter.segmenter(options: options)
-      break
-    default:
-      break
+
     }
     self.lastDetector = activeDetector
   }
@@ -891,6 +352,9 @@ class CameraViewController: UIViewController {
       degree = 270.0
     case .leftMirrored, .right:
       degree = 0.0
+    @unknown default:
+        fatalError()
+
     }
     view.transform = CGAffineTransform.init(rotationAngle: degree * 3.141592654 / 180)
   }
@@ -925,71 +389,11 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     let imageHeight = CGFloat(CVPixelBufferGetHeight(imageBuffer))
     var shouldEnableClassification = false
     var shouldEnableMultipleObjects = false
-    switch activeDetector {
-    case .onDeviceObjectProminentWithClassifier, .onDeviceObjectMultipleWithClassifier,
-      .onDeviceObjectCustomProminentWithClassifier, .onDeviceObjectCustomMultipleWithClassifier:
-      shouldEnableClassification = true
-    default:
-      break
-    }
-    switch activeDetector {
-    case .onDeviceObjectMultipleNoClassifier, .onDeviceObjectMultipleWithClassifier,
-      .onDeviceObjectCustomMultipleNoClassifier, .onDeviceObjectCustomMultipleWithClassifier:
-      shouldEnableMultipleObjects = true
-    default:
-      break
-    }
+    
 
     switch activeDetector {
-    case .onDeviceBarcode:
-      scanBarcodesOnDevice(in: visionImage, width: imageWidth, height: imageHeight)
-    case .onDeviceFace:
-      detectFacesOnDevice(in: visionImage, width: imageWidth, height: imageHeight)
-    case .onDeviceText:
-      recognizeTextOnDevice(in: visionImage, width: imageWidth, height: imageHeight)
-    case .onDeviceImageLabel:
-      detectLabels(
-        in: visionImage, width: imageWidth, height: imageHeight, shouldUseCustomModel: false)
-    case .onDeviceImageLabelsCustom:
-      detectLabels(
-        in: visionImage, width: imageWidth, height: imageHeight, shouldUseCustomModel: true)
-    case .onDeviceObjectProminentNoClassifier, .onDeviceObjectProminentWithClassifier,
-      .onDeviceObjectMultipleNoClassifier, .onDeviceObjectMultipleWithClassifier:
-      // The `options.detectorMode` defaults to `.stream`
-      let options = ObjectDetectorOptions()
-      options.shouldEnableClassification = shouldEnableClassification
-      options.shouldEnableMultipleObjects = shouldEnableMultipleObjects
-      detectObjectsOnDevice(
-        in: visionImage,
-        width: imageWidth,
-        height: imageHeight,
-        options: options)
-    case .onDeviceObjectCustomProminentNoClassifier, .onDeviceObjectCustomProminentWithClassifier,
-      .onDeviceObjectCustomMultipleNoClassifier, .onDeviceObjectCustomMultipleWithClassifier:
-      guard
-        let localModelFilePath = Bundle.main.path(
-          forResource: Constant.localModelFile.name,
-          ofType: Constant.localModelFile.type
-        )
-      else {
-        print("Failed to find custom local model file.")
-        return
-      }
-      let localModel = LocalModel(path: localModelFilePath)
-      // The `options.detectorMode` defaults to `.stream`
-      let options = CustomObjectDetectorOptions(localModel: localModel)
-      options.shouldEnableClassification = shouldEnableClassification
-      options.shouldEnableMultipleObjects = shouldEnableMultipleObjects
-      detectObjectsOnDevice(
-        in: visionImage,
-        width: imageWidth,
-        height: imageHeight,
-        options: options)
-
     case .pose, .poseAccurate:
       detectPose(in: visionImage, width: imageWidth, height: imageHeight)
-    case .segmentationSelfie:
-      detectSegmentationMask(in: visionImage, sampleBuffer: sampleBuffer)
     }
   }
 }
@@ -997,22 +401,10 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
 // MARK: - Constants
 
 public enum Detector: String {
-  case onDeviceBarcode = "Barcode Scanning"
-  case onDeviceFace = "Face Detection"
-  case onDeviceText = "Text Recognition"
-  case onDeviceImageLabel = "Image Labeling"
-  case onDeviceImageLabelsCustom = "Image Labeling Custom"
-  case onDeviceObjectProminentNoClassifier = "ODT, single, no labeling"
-  case onDeviceObjectProminentWithClassifier = "ODT, single, labeling"
-  case onDeviceObjectMultipleNoClassifier = "ODT, multiple, no labeling"
-  case onDeviceObjectMultipleWithClassifier = "ODT, multiple, labeling"
-  case onDeviceObjectCustomProminentNoClassifier = "ODT, custom, single, no labeling"
-  case onDeviceObjectCustomProminentWithClassifier = "ODT, custom, single, labeling"
-  case onDeviceObjectCustomMultipleNoClassifier = "ODT, custom, multiple, no labeling"
-  case onDeviceObjectCustomMultipleWithClassifier = "ODT, custom, multiple, labeling"
+
   case pose = "Pose Detection"
   case poseAccurate = "Pose Detection, accurate"
-  case segmentationSelfie = "Selfie Segmentation"
+
 }
 
 private enum Constant {
@@ -1036,3 +428,4 @@ private enum Constant {
   static let imageLabelResultFrameHeight = 0.8
   static let segmentationMaskAlpha: CGFloat = 0.5
 }
+

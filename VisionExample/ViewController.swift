@@ -33,21 +33,14 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
     return annotationOverlayView
   }()
 
-  /// An image picker for accessing the photo library or camera.
-  var imagePicker = UIImagePickerController()
 
-  // Image counter.
-  var currentImage = 0
+
+
 
   /// Initialized when one of the pose detector rows are chosen. Reset to `nil` when neither are.
   private var poseDetector: PoseDetector? = nil
 
-  /// Initialized when a segmentation row is chosen. Reset to `nil` otherwise.
-  private var segmenter: Segmenter? = nil
 
-  /// The detector row with which detection was most recently run. Useful for inferring when to
-  /// reset detector instances which use a conventional lifecyle paradigm.
-  private var lastDetectorRow: DetectorPickerRow?
 
   // MARK: - IBOutlets
 
@@ -60,7 +53,14 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
     self.navigationController!.navigationBar.setBackgroundImage(UIImage(), for: .default)
       self.navigationController!.navigationBar.shadowImage = UIImage()
       self.navigationController!.navigationBar.isTranslucent = true
+    
+    if #available(iOS 13.0, *) {
+        self.view.backgroundColor = .systemBackground
+    } else {
+        // Fallback on earlier versions
+    }
   }
+
 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
