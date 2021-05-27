@@ -40,7 +40,8 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
   /// Initialized when one of the pose detector rows are chosen. Reset to `nil` when neither are.
   private var poseDetector: PoseDetector? = nil
 
-
+    @IBOutlet weak var StartButton: UIButton!
+    
 
   // MARK: - IBOutlets
 
@@ -53,6 +54,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
     self.navigationController!.navigationBar.setBackgroundImage(UIImage(), for: .default)
       self.navigationController!.navigationBar.shadowImage = UIImage()
       self.navigationController!.navigationBar.isTranslucent = true
+    view.addSubview(StartButton)
     
     if #available(iOS 13.0, *) {
         self.view.backgroundColor = .systemBackground
@@ -60,6 +62,11 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
         // Fallback on earlier versions
     }
   }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        StartButton.center = CGPoint(x: view.frame.size.width/2, y: view.frame.size.height/2)
+    }
 
 
   override func viewWillAppear(_ animated: Bool) {

@@ -1,18 +1,4 @@
-//
-//  Copyright (c) 2018 Google Inc.
-//
-//  Licensed under the Apache License, Version 2.0 (the "License");
-//  you may not use this file except in compliance with the License.
-//  You may obtain a copy of the License at
-//
-//  http://www.apache.org/licenses/LICENSE-2.0
-//
-//  Unless required by applicable law or agreed to in writing, software
-//  distributed under the License is distributed on an "AS IS" BASIS,
-//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-//  See the License for the specific language governing permissions and
-//  limitations under the License.
-//
+
 
 import AVFoundation
 import CoreVideo
@@ -27,13 +13,13 @@ class CameraViewController: UIViewController {
 
   private var currentDetector: Detector = .poseAccurate
   private var isUsingFrontCamera = true
-//  private var previewLayer: AVCaptureVideoPreviewLayer!
     private var session: AVCaptureSession?
   private lazy var sessionQueue = DispatchQueue(label: Constant.sessionQueueLabel)
   private var lastFrame: CMSampleBuffer?
     
+    @IBOutlet weak var LeftButton: UIButton!
+    @IBOutlet weak var RightButton: UIButton!
     
-//    var session: AVCaptureSession?
     var output = AVCapturePhotoOutput()
     let previewLayer = AVCaptureVideoPreviewLayer()
 
@@ -69,8 +55,12 @@ class CameraViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+//
     view.backgroundColor = .black
     view.layer.addSublayer(previewLayer)
+    view.addSubview(LeftButton)
+    view.addSubview(RightButton)
     checkCameraPermissions()
 
 //    previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
@@ -116,6 +106,7 @@ class CameraViewController: UIViewController {
                     session.addOutput((output))
                 }
                 previewLayer.videoGravity = .resizeAspectFill
+               
                 previewLayer.session = session
                 
                 session.startRunning()
@@ -141,8 +132,19 @@ class CameraViewController: UIViewController {
 //
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
-
-    previewLayer.frame = view.bounds
+    
+    previewLayer.frame = view.frame
+    
+    LeftButton.center = CGPoint(x: view.frame.size.width/2, y: view.frame.size.height/2 - 300)
+    LeftButton.backgroundColor = .red
+    LeftButton.layer.borderWidth = 6.0
+      LeftButton.layer.borderColor = UIColor.red.cgColor
+      LeftButton.alpha = 0.3
+    RightButton.center = CGPoint(x: view.frame.size.width/2, y: view.frame.size.height/2 + 300)
+    RightButton.backgroundColor = .red
+      RightButton.layer.borderWidth = 6.0
+      RightButton.layer.borderColor = UIColor.red.cgColor
+      RightButton.alpha = 0.3
   }
 
   // MARK: - IBActions
@@ -184,19 +186,45 @@ class CameraViewController: UIViewController {
           return
         }
         // Pose detected. Currently, only single person detection is supported.
+//        print(LeftButton.center) // 207,119
+        print(RightButton.center) // 207, 719
         poses.forEach { pose in
-//            print(pose)
-          let poseOverlayView = UIUtilities.createPoseOverlayView(
-            forPose: pose,
-            inViewWithBounds: strongSelf.annotationOverlayView.bounds,
-            lineWidth: Constant.lineWidth,
-            dotRadius: Constant.smallDotRadius,
-            positionTransformationClosure: { (position) -> CGPoint in
-              return strongSelf.normalizedPoint(
-                fromVisionPoint: position, width: width, height: height)
+            let lefthand = pose.landmark(ofType: .leftIndexFinger)
+//            print(lefthand.position.x) //40 - 90
+//            print(lefthand.position.y) // 150 - 200
+//            print(LeftButton.center.x)
+//            print(LeftButton.center.y)
+            
+            if (lefthand.position.x >= LeftButton.center.y - 80 && lefthand.position.x <= LeftButton.center.y - 30) && (lefthand.position.y >= LeftButton.center.x - 50 && lefthand.position.y <= LeftButton.center.x + 15 ){
+                LeftButton.backgroundColor = .green
+                LeftButton.layer.borderColor = UIColor.green.cgColor
+            }else{
+                LeftButton.backgroundColor = .red
+                LeftButton.layer.borderColor = UIColor.red.cgColor
             }
-          )
-          strongSelf.annotationOverlayView.addSubview(poseOverlayView)
+            let righthand = pose.landmark(ofType: .rightIndexFinger)
+            print(righthand.position.x) //370 - 440
+            print(righthand.position.y) // 160 - 225
+            if (righthand.position.x >= RightButton.center.y - 350 && righthand.position.x <= RightButton.center.y - 280) && (righthand.position.y >= RightButton.center.x - 50 && righthand.position.y <= RightButton.center.x + 15 ){
+                RightButton.backgroundColor = .green
+                RightButton.layer.borderColor = UIColor.green.cgColor
+            }else{
+                RightButton.backgroundColor = .red
+                RightButton.layer.borderColor = UIColor.red.cgColor
+            }
+            
+//            print(pose)
+//          let poseOverlayView = UIUtilities.createPoseOverlayView(
+//            forPose: pose,
+//            inViewWithBounds: strongSelf.annotationOverlayView.bounds,
+//            lineWidth: Constant.lineWidth,
+//            dotRadius: Constant.smallDotRadius,
+//            positionTransformationClosure: { (position) -> CGPoint in
+//              return strongSelf.normalizedPoint(
+//                fromVisionPoint: position, width: width, height: height)
+//            }
+//          )
+//          strongSelf.annotationOverlayView.addSubview(poseOverlayView)
         }
       }
     }
