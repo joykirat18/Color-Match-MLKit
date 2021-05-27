@@ -21,17 +21,21 @@ import MLKit
 @objc(CameraViewController)
 class CameraViewController: UIViewController {
   private let detectors: [Detector] = [
-
     .pose,
     .poseAccurate,
     ]
 
   private var currentDetector: Detector = .poseAccurate
   private var isUsingFrontCamera = true
-  private var previewLayer: AVCaptureVideoPreviewLayer!
-  private lazy var captureSession = AVCaptureSession()
+//  private var previewLayer: AVCaptureVideoPreviewLayer!
+    private var session: AVCaptureSession?
   private lazy var sessionQueue = DispatchQueue(label: Constant.sessionQueueLabel)
   private var lastFrame: CMSampleBuffer?
+    
+    
+//    var session: AVCaptureSession?
+    var output = AVCapturePhotoOutput()
+    let previewLayer = AVCaptureVideoPreviewLayer()
 
   private lazy var previewOverlayView: UIImageView = {
 
@@ -65,13 +69,63 @@ class CameraViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    view.backgroundColor = .black
+    view.layer.addSublayer(previewLayer)
+    checkCameraPermissions()
 
-    previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-    setUpPreviewOverlayView()
+//    previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+//    setUpPreviewOverlayView()
     setUpAnnotationOverlayView()
     setUpCaptureSessionOutput()
     setUpCaptureSessionInput()
   }
+    
+    
+    
+    private func checkCameraPermissions(){
+        switch AVCaptureDevice.authorizationStatus(for: .video){
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                guard granted else {
+                    return
+                }
+                DispatchQueue.main.async{
+                    self.setUpCamera()
+                }
+            }
+        case .restricted:
+            break
+        case .denied:
+            break
+        case .authorized:
+            setUpCamera()
+        @unknown default:
+            break
+        }
+    }
+    
+    private func setUpCamera(){
+        let session = AVCaptureSession()
+        if let device = AVCaptureDevice.default(for: .video){
+            do{
+                let input =  try AVCaptureDeviceInput(device: device)
+                if session.canAddInput(input) {
+                    session.addInput(input)
+                }
+                if session.canAddOutput(output){
+                    session.addOutput((output))
+                }
+                previewLayer.videoGravity = .resizeAspectFill
+                previewLayer.session = session
+                
+                session.startRunning()
+                self.session = session
+                
+            }catch{
+                print(error)
+            }
+        }
+    }
 
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
@@ -84,15 +138,14 @@ class CameraViewController: UIViewController {
 
     stopSession()
   }
-
+//
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
 
-    previewLayer.frame = cameraView.frame
+    previewLayer.frame = view.bounds
   }
 
   // MARK: - IBActions
-
 
   @IBAction func switchCamera(_ sender: Any) {
     isUsingFrontCamera = !isUsingFrontCamera
@@ -103,6 +156,7 @@ class CameraViewController: UIViewController {
   // MARK: On-Device Detections
 
   private func detectPose(in image: VisionImage, width: CGFloat, height: CGFloat) {
+//    print(image)
     if let poseDetector = self.poseDetector {
       var poses: [Pose]
       do {
@@ -131,6 +185,7 @@ class CameraViewController: UIViewController {
         }
         // Pose detected. Currently, only single person detection is supported.
         poses.forEach { pose in
+//            print(pose)
           let poseOverlayView = UIUtilities.createPoseOverlayView(
             forPose: pose,
             inViewWithBounds: strongSelf.annotationOverlayView.bounds,
@@ -156,10 +211,10 @@ class CameraViewController: UIViewController {
         print("Self is nil!")
         return
       }
-      strongSelf.captureSession.beginConfiguration()
+        strongSelf.session?.beginConfiguration()
       // When performing latency tests to determine ideal capture settings,
       // run the app in 'release' mode to get accurate performance metrics
-      strongSelf.captureSession.sessionPreset = AVCaptureSession.Preset.medium
+        strongSelf.session?.sessionPreset = AVCaptureSession.Preset.medium
 
       let output = AVCaptureVideoDataOutput()
       output.videoSettings = [
@@ -168,12 +223,12 @@ class CameraViewController: UIViewController {
       output.alwaysDiscardsLateVideoFrames = true
       let outputQueue = DispatchQueue(label: Constant.videoDataOutputQueueLabel)
       output.setSampleBufferDelegate(strongSelf, queue: outputQueue)
-      guard strongSelf.captureSession.canAddOutput(output) else {
+        guard ((strongSelf.session?.canAddOutput(output)) != nil) else {
         print("Failed to add capture session output.")
         return
       }
-      strongSelf.captureSession.addOutput(output)
-      strongSelf.captureSession.commitConfiguration()
+      strongSelf.session?.addOutput(output)
+        strongSelf.session?.commitConfiguration()
     }
   }
 
@@ -190,19 +245,19 @@ class CameraViewController: UIViewController {
         return
       }
       do {
-        strongSelf.captureSession.beginConfiguration()
-        let currentInputs = strongSelf.captureSession.inputs
+        strongSelf.session?.beginConfiguration()
+        let currentInputs = strongSelf.session!.inputs
         for input in currentInputs {
-          strongSelf.captureSession.removeInput(input)
+          strongSelf.session?.removeInput(input)
         }
 
         let input = try AVCaptureDeviceInput(device: device)
-        guard strongSelf.captureSession.canAddInput(input) else {
+        guard ((strongSelf.session?.canAddInput(input)) != nil) else {
           print("Failed to add capture session input.")
           return
         }
-        strongSelf.captureSession.addInput(input)
-        strongSelf.captureSession.commitConfiguration()
+        strongSelf.session?.addInput(input)
+        strongSelf.session?.commitConfiguration()
       } catch {
         print("Failed to create capture device input: \(error.localizedDescription)")
       }
@@ -216,7 +271,7 @@ class CameraViewController: UIViewController {
         print("Self is nil!")
         return
       }
-      strongSelf.captureSession.startRunning()
+      strongSelf.session?.startRunning()
     }
   }
 
@@ -227,28 +282,28 @@ class CameraViewController: UIViewController {
         print("Self is nil!")
         return
       }
-      strongSelf.captureSession.stopRunning()
+        strongSelf.session?.stopRunning()
     }
   }
 
   private func setUpPreviewOverlayView() {
-    cameraView.addSubview(previewOverlayView)
+    view.addSubview(previewOverlayView)
     NSLayoutConstraint.activate([
-      previewOverlayView.centerXAnchor.constraint(equalTo: cameraView.centerXAnchor),
-      previewOverlayView.centerYAnchor.constraint(equalTo: cameraView.centerYAnchor),
-      previewOverlayView.leadingAnchor.constraint(equalTo: cameraView.leadingAnchor),
-      previewOverlayView.trailingAnchor.constraint(equalTo: cameraView.trailingAnchor),
+      previewOverlayView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+      previewOverlayView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+      previewOverlayView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      previewOverlayView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 
     ])
   }
 
   private func setUpAnnotationOverlayView() {
-    cameraView.addSubview(annotationOverlayView)
+    view.addSubview(annotationOverlayView)
     NSLayoutConstraint.activate([
-      annotationOverlayView.topAnchor.constraint(equalTo: cameraView.topAnchor),
-      annotationOverlayView.leadingAnchor.constraint(equalTo: cameraView.leadingAnchor),
-      annotationOverlayView.trailingAnchor.constraint(equalTo: cameraView.trailingAnchor),
-      annotationOverlayView.bottomAnchor.constraint(equalTo: cameraView.bottomAnchor),
+      annotationOverlayView.topAnchor.constraint(equalTo: view.topAnchor),
+      annotationOverlayView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      annotationOverlayView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      annotationOverlayView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
     ])
   }
 
@@ -301,7 +356,7 @@ class CameraViewController: UIViewController {
       return value
     }
   }
-
+//
   private func normalizedPoint(
     fromVisionPoint point: VisionPoint,
     width: CGFloat,
@@ -332,7 +387,6 @@ class CameraViewController: UIViewController {
     // Initialize the new detector, if applicable.
     switch activeDetector {
     case .pose, .poseAccurate:
-      // The `options.detectorMode` defaults to `.stream`
       let options = activeDetector == .pose ? PoseDetectorOptions() : AccuratePoseDetectorOptions()
       self.poseDetector = PoseDetector.poseDetector(options: options)
       break
@@ -340,7 +394,7 @@ class CameraViewController: UIViewController {
     }
     self.lastDetector = activeDetector
   }
-
+//
   private func rotate(_ view: UIView, orientation: UIImage.Orientation) {
     var degree: CGFloat = 0.0
     switch orientation {
@@ -389,7 +443,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     let imageHeight = CGFloat(CVPixelBufferGetHeight(imageBuffer))
     var shouldEnableClassification = false
     var shouldEnableMultipleObjects = false
-    
+
 
     switch activeDetector {
     case .pose, .poseAccurate:
