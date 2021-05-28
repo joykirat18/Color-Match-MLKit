@@ -3,6 +3,8 @@
 import AVFoundation
 import CoreVideo
 import MLKit
+import UIKit
+import SpriteKit
 
 @objc(CameraViewController)
 class CameraViewController: UIViewController {
@@ -12,10 +14,14 @@ class CameraViewController: UIViewController {
     ]
 
   private var currentDetector: Detector = .poseAccurate
+//    public var leftFlag = false
+//    public var rightFlag = false
   private var isUsingFrontCamera = true
     private var session: AVCaptureSession?
   private lazy var sessionQueue = DispatchQueue(label: Constant.sessionQueueLabel)
   private var lastFrame: CMSampleBuffer?
+    private var counter = 0;
+    let gameController  = GameViewController()
     
     @IBOutlet weak var LeftButton: UIButton!
     @IBOutlet weak var RightButton: UIButton!
@@ -56,7 +62,16 @@ class CameraViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-//
+    dimensions.width = view.frame.width
+    dimensions.height = view.frame.height
+    dimensions.minX = view.frame.minX
+    dimensions.minY = view.frame.minY
+    dimensions.maxX = view.frame.maxX
+    dimensions.maxY = view.frame.maxY
+    dimensions.midX = view.frame.midX
+    dimensions.midY = view.frame.midY
+//    print(dimensions.width)
+//    print(dimensions.height)
     view.backgroundColor = .black
     view.layer.addSublayer(previewLayer)
     view.addSubview(LeftButton)
@@ -68,7 +83,24 @@ class CameraViewController: UIViewController {
     setUpAnnotationOverlayView()
     setUpCaptureSessionOutput()
     setUpCaptureSessionInput()
+    
   }
+    
+    private func setUpGame() {
+//        addChild(gameController)
+//        self.view.addSubview(gameController.view)
+//
+////        gameController.didMove(toParent: self)
+//
+//        gameController.view.frame = CGRect(x: self.view.frame.width/2, y: self.view.frame.height/2 , width: self.view.frame.height/2, height: self.view.frame.width)
+//        gameController.view.center = CGPoint(x: self.view.frame.width/2, y: self.view.frame.height/2)
+        
+        present(GameViewController(), animated: true, completion: nil)
+    
+//        gameController.view.isHidden = true
+        
+        
+    }
     
     
     
@@ -187,7 +219,7 @@ class CameraViewController: UIViewController {
         }
         // Pose detected. Currently, only single person detection is supported.
 //        print(LeftButton.center) // 207,119
-        print(RightButton.center) // 207, 719
+//        print(RightButton.center) // 207, 719
         poses.forEach { pose in
             let lefthand = pose.landmark(ofType: .leftIndexFinger)
 //            print(lefthand.position.x) //40 - 90
@@ -196,21 +228,34 @@ class CameraViewController: UIViewController {
 //            print(LeftButton.center.y)
             
             if (lefthand.position.x >= LeftButton.center.y - 80 && lefthand.position.x <= LeftButton.center.y - 30) && (lefthand.position.y >= LeftButton.center.x - 50 && lefthand.position.y <= LeftButton.center.x + 15 ){
+                flags.leftFlag = true
+                flags.leftCounter += 1
                 LeftButton.backgroundColor = .green
                 LeftButton.layer.borderColor = UIColor.green.cgColor
             }else{
+                flags.leftCounter = 0
+                flags.leftFlag = false
                 LeftButton.backgroundColor = .red
                 LeftButton.layer.borderColor = UIColor.red.cgColor
             }
             let righthand = pose.landmark(ofType: .rightIndexFinger)
-            print(righthand.position.x) //370 - 440
-            print(righthand.position.y) // 160 - 225
+//            print(righthand.position.x) //370 - 440
+//            print(righthand.position.y) // 160 - 225
             if (righthand.position.x >= RightButton.center.y - 350 && righthand.position.x <= RightButton.center.y - 280) && (righthand.position.y >= RightButton.center.x - 50 && righthand.position.y <= RightButton.center.x + 15 ){
+                flags.rightFlag = true
+                flags.rightCounter += 1
                 RightButton.backgroundColor = .green
                 RightButton.layer.borderColor = UIColor.green.cgColor
             }else{
+                flags.rightFlag = false
+                flags.rightCounter = 0
                 RightButton.backgroundColor = .red
                 RightButton.layer.borderColor = UIColor.red.cgColor
+            }
+            if(flags.leftFlag == true && flags.rightFlag == true && counter == 0){
+                counter = 1;
+                setUpGame()
+                gameController.view.isHidden = false
             }
             
 //            print(pose)
@@ -229,6 +274,10 @@ class CameraViewController: UIViewController {
       }
     }
   }
+    
+    private func startGame() {
+        
+    }
 
   // MARK: - Private
 
