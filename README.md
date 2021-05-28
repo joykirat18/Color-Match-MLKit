@@ -17,7 +17,7 @@ To play the game in your phone, clone the project, open the folder in your termi
 * Try to overlap your left hand with the left button and the right hand with the right button. They both will turn green on overlap
 * This will start the game.
 * Left button will turn the color wheel in anti Clockwise direction and the right button will turn the color wheel in clockwise direction.
-* Try to score ther maximum points and Enjoy!!
+* Try to score the maximum points.You get an audio feedback when you score a point and when the game overs.
 
 
 ## ScreenShots 
