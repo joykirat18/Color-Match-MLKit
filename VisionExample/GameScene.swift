@@ -74,7 +74,6 @@ class GameScene: SKScene {
         
 //        scoreLabel.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 2)
         addChild(scoreLabel)
-//        addChild(infoLabel)
         spawnBall()
         
         
