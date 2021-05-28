@@ -23,8 +23,8 @@ class CameraViewController: UIViewController {
     private var counter = 0;
     let gameController  = GameViewController()
     
-    @IBOutlet weak var LeftButton: UIButton!
-    @IBOutlet weak var RightButton: UIButton!
+    @IBOutlet weak var LeftButton: UIImageView!
+    @IBOutlet weak var RightButton: UIImageView!
     
     var output = AVCapturePhotoOutput()
     let previewLayer = AVCaptureVideoPreviewLayer()
@@ -167,9 +167,13 @@ class CameraViewController: UIViewController {
     
     previewLayer.frame = view.frame
     
+
     LeftButton.center = CGPoint(x: view.frame.size.width/2, y: view.frame.size.height/2 - 300)
     LeftButton.backgroundColor = .red
     LeftButton.layer.borderWidth = 6.0
+    
+    
+    
       LeftButton.layer.borderColor = UIColor.red.cgColor
       LeftButton.alpha = 0.3
     RightButton.center = CGPoint(x: view.frame.size.width/2, y: view.frame.size.height/2 + 300)
@@ -252,8 +256,8 @@ class CameraViewController: UIViewController {
                 RightButton.backgroundColor = .red
                 RightButton.layer.borderColor = UIColor.red.cgColor
             }
-            if(flags.leftFlag == true && flags.rightFlag == true && counter == 0){
-                counter = 1;
+            if(flags.leftFlag == true && flags.rightFlag == true && flags.counter == 0){
+                flags.counter = 1;
                 setUpGame()
                 gameController.view.isHidden = false
             }

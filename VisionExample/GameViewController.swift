@@ -20,9 +20,11 @@ class GameViewController: UIViewController {
             // Load the SKScene from 'GameScene.sks'
             let scene = GameScene(size: view.bounds.size)
             scene.scaleMode = .resizeFill
-
+            UIApplication.shared.isIdleTimerDisabled = true
                 view.presentScene(scene)
-            
+            if(flags.counter == 0){
+                present(CameraViewController(), animated: true, completion: nil)
+            }
             
             view.ignoresSiblingOrder = true
 

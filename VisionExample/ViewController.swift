@@ -55,12 +55,9 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
       self.navigationController!.navigationBar.shadowImage = UIImage()
       self.navigationController!.navigationBar.isTranslucent = true
     view.addSubview(StartButton)
+    self.view.backgroundColor = .white
     
-    if #available(iOS 13.0, *) {
-        self.view.backgroundColor = .systemBackground
-    } else {
-        // Fallback on earlier versions
-    }
+    
   }
     
     override func viewDidLayoutSubviews() {

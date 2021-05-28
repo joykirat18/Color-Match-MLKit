@@ -15,6 +15,7 @@ struct flags {
     static var rightCounter = 0
     static var leftFlag = false
     static var rightFlag = false
+    static var counter = 0
 }
 
 

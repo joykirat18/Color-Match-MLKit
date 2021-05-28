@@ -7,6 +7,8 @@
 //
 
 import SpriteKit
+import UIKit
+import AVFoundation
 
 enum PlayColors {
     static let colors = [
@@ -27,20 +29,29 @@ class GameScene: SKScene {
     var switchState = SwitchState.red
     var currentColorIndex: Int?
     var leftCounter = 0;
-    var rightCounter = 0;
+    var rightCounter = 0
+    var playBlingSound: SKAction?
+    var gravity = -0.2
+    
+    let scoreLabel = SKLabelNode(text: "0")
+//    let infoLabel = SKLabelNode(text: "To Restart : Scan Both the Hands")
+//    let useScoreLabel = SKLabelNode(text: "0")
+    var score = 0
     
     override func didMove(to view: SKView) {
         layoutScene()
         setUpPhysics()
+        self.playBlingSound = SKAction.playSoundFileNamed("bling", waitForCompletion: false)
     }
     
     func setUpPhysics() {
-        physicsWorld.gravity = CGVector(dx: -0.2 , dy: 0.0)
+        physicsWorld.gravity = CGVector(dx: gravity , dy: 0.0)
         physicsWorld.contactDelegate = self
     }
     
     func layoutScene(){
         self.backgroundColor = UIColor(red: 44/255, green:  62/255, blue: 80/255, alpha: 0.5)
+        
         
         colorSwitch = SKSpriteNode(imageNamed: "ColorCircle")
         print(dimensions.width)
@@ -53,9 +64,28 @@ class GameScene: SKScene {
         colorSwitch.physicsBody?.isDynamic = false
         colorSwitch.zRotation = (-1)*(.pi/2)
         addChild(colorSwitch)
+        
+        scoreLabel.fontName = "AvenirNext-Bold"
+        scoreLabel.fontSize = 40.0
+        scoreLabel.fontColor = UIColor.white
+        scoreLabel.position = CGPoint(x: dimensions.maxX - 50, y: dimensions.minY + 50)
+        scoreLabel.zRotation = (-1)*(.pi/2)
+        
+        
+//        scoreLabel.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 2)
+        addChild(scoreLabel)
+//        addChild(infoLabel)
         spawnBall()
         
         
+    }
+    func updateWorldGravity() {
+        gravity -= 0.1
+        physicsWorld.gravity = CGVector(dx: gravity, dy: 0.0)
+    }
+    
+    func updateScoreLabel() {
+        scoreLabel.text = "\(score)"
     }
     
     func spawnBall(){
@@ -93,7 +123,17 @@ class GameScene: SKScene {
     }
     
     func GameOver() {
-        print("Game Over")
+        run(SKAction.playSoundFileNamed("game_over", waitForCompletion: true)) {
+            UserDefaults.standard.set(self.score, forKey: "RecentScore")
+            if self.score > UserDefaults.standard.integer(forKey: "HighScore") {
+                UserDefaults.standard.set(self.score, forKey: "HighScore")
+            }
+            let menuScene = MenuScene(size: self.view!.bounds.size)
+            self.view!.presentScene(menuScene)
+        }
+        
+            
+//        }
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -124,9 +164,14 @@ extension GameScene: SKPhysicsContactDelegate {
         if contactMask == PhysicsCategories.ballCategory | PhysicsCategories.switchCategory {
             if let ball = contact.bodyA.node?.name == "Ball" ? contact.bodyA.node as?
                 SKSpriteNode : contact.bodyB.node as? SKSpriteNode {
-                print(currentColorIndex)
-                print(switchState.rawValue)
+            
                 if currentColorIndex == switchState.rawValue {
+                    if let playBlingSound = self.playBlingSound {
+                        run(playBlingSound)
+                    }
+                    score += 1
+                    updateScoreLabel()
+                    updateWorldGravity()
                     print("Correct")
                     ball.run(SKAction.fadeOut(withDuration: 0.35)) {
                         ball.removeFromParent()
