@@ -1,58 +1,45 @@
-# ML Kit Vision Quickstart Sample App
+# Color Match Game using ML kit
 
 ## Introduction
 
-This ML Kit Vision iOS Quickstart app demonstrates how to use and integrate various vision based ML Kit features into your app.
+This Color Match game uses the Ml kit pose detection library from google to detect hand positions and is used to control the rotation of the color switch.
 
-## Feature List
+<img src="https://user-images.githubusercontent.com/66181127/120025234-058af500-c00e-11eb-86e0-25824493b430.png" width="200" height="200" />
 
-Features that are included in this demo app:
-* [Object Detection](https://developers.google.com/ml-kit/vision/object-detection/ios) - Detect, track, and classify objects in real time and static images
-* [Custom Object Detection (Birds)](https://developers.google.com/ml-kit/vision/object-detection/custom-models/ios) - Detect, track, and classify birds with a custom TensorFlow Lite model
-* [Face Detection](https://developers.google.com/ml-kit/vision/face-detection/ios) - Detect faces in real time and static images
-* [Text Recognition](https://developers.google.com/ml-kit/vision/text-recognition/ios) - Recognize text in real time and static images
-* [Barcode Scanning ](https://developers.google.com/ml-kit/vision/barcode-scanning/ios)- Scan barcodes in real time and static images
-* [Image Labeling](https://developers.google.com/ml-kit/vision/image-labeling/ios) - Label images in real time and static images
-* [Custom Image Labeling (Birds)](https://developers.google.com/ml-kit/vision/image-labeling/custom-models/ios) - Label images of birds with a custom TensorFlow Lite model
-* [Pose Detection](https://developers.google.com/ml-kit/vision/pose-detection/ios) - Detect the position of the human body in real time.
-* [Selfie Segmentation](https://developers.google.com/ml-kit/vision/selfie-segmentation/ios) - Segment people from the background in real time.
+## SetUp
 
-## Getting Started
+To play the game in your phone, clone the project, open the folder in your terminal and run `pod install` and then open the new `.xcworkspace` in xcode
 
-* Run the sample code on your iOS device or simulator
-* Try extending the code to add new features and functionality
+## How to Play
 
-## How to use the app
+* Tap on the start button and turn your phone into landscape mode. Also give permission to use the camera.
+* There will be two buttons on either side of the screen. 
+* Try to overlap your left hand with the left button and the right hand with the right button. They both will turn green on overlap
+* This will start the game.
+* Left button will turn the color wheel in anti Clockwise direction and the right button will turn the color wheel in clockwise direction.
+* Try to score ther maximum points and Enjoy!!
 
-This app supports two usage scenarios: Live Camera mode and Static Image mode.
 
-### Static Image Scenario
-When the app is first opened, you will begin in Static Image mode. Use the carousel to select a specific API and hit “detect” to exercise the API on the preloaded images. In order to add your own images from the camera roll, select the camera roll icon on the top of the screen.
+## ScreenShots 
+* Starting Page of the app
+<img src="https://user-images.githubusercontent.com/66181127/120026983-74694d80-c010-11eb-894b-c31d6228b73f.PNG" height="600"  />
 
-### Live Camera Scenario
-This mode uses the camera preview as input instead of static images. In order to enter this mode, select the video camera icon in the top right corner of the screen.
+* The buttons buttons appear. Try to overlap your hands with the button
+![IMG_5920](https://user-images.githubusercontent.com/66181127/120027459-03766580-c011-11eb-992d-8e6416106f3f.PNG)
 
-## Support
--------
 
-- [Stack Overflow](https://stackoverflow.com/questions/tagged/google-mlkit)
+* After matching both the buttons the game start
+![IMG_5923](https://user-images.githubusercontent.com/66181127/120027289-cdd17c80-c010-11eb-9de9-ccf84fc3e082.PNG)
 
-License
--------
+* Tap to restart the game
+![IMG_5921](https://user-images.githubusercontent.com/66181127/120027341-dfb31f80-c010-11eb-80f7-e6396ab2b5e6.PNG)
 
-Copyright 2020 Google, Inc.
 
-Licensed to the Apache Software Foundation (ASF) under one or more contributor
-license agreements.  See the NOTICE file distributed with this work for
-additional information regarding copyright ownership.  The ASF licenses this
-file to you under the Apache License, Version 2.0 (the "License"); you may not
-use this file except in compliance with the License.  You may obtain a copy of
-the License at
+## Reference
 
-  http://www.apache.org/licenses/LICENSE-2.0
+* [Google ML kti API](https://github.com/googlesamples/mlkit/tree/master/ios/quickstarts/vision)
+* [Color Switch Game written in Sprite Kit](https://github.com/paxer/ColorSwitch)
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
-License for the specific language governing permissions and limitations under
-the License.
+## Demo of the Application
+
+* [Youtube Link]()
