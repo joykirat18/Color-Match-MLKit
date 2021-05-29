@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="0Q6-lG-sCk">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
@@ -49,7 +49,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <segue destination="YXl-5B-mBF" kind="showDetail" id="teh-kG-2QY"/>
+                                    <segue destination="YXl-5B-mBF" kind="show" id="Jsy-k5-i98"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="How To Play" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cx2-OL-2SJ">
@@ -73,8 +73,8 @@
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ColorCircle" translatesAutoresizingMaskIntoConstraints="NO" id="8La-jW-VbU">
-                                <rect key="frame" x="87" y="145" width="240" height="205"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ColorCircle" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8La-jW-VbU">
+                                <rect key="frame" x="83" y="146" width="240" height="205"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
@@ -84,6 +84,10 @@
                         <barButtonItem key="backBarButtonItem" title=" " id="QLp-QO-2R9"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="HowToPlay" destination="cx2-OL-2SJ" id="WCe-rd-ahJ"/>
+                        <outlet property="Info1" destination="oLs-UM-0NQ" id="D5f-MP-HO9"/>
+                        <outlet property="Info2" destination="cvF-jO-cpf" id="RHr-1J-Cjn"/>
+                        <outlet property="Logo" destination="8La-jW-VbU" id="hQW-0g-fZf"/>
                         <outlet property="StartButton" destination="Fa8-iv-6jo" id="ZpX-xj-9gv"/>
                     </connections>
                 </viewController>
@@ -100,11 +104,11 @@
                         <viewControllerLayoutGuide type="bottom" id="7NG-lt-hPa"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="bWY-Sx-TCF">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vwd-Qp-BMC" userLabel="Camera View">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lqg-Zi-3Yk">
                                         <rect key="frame" x="226" y="73" width="100" height="100"/>
@@ -141,6 +145,7 @@
                             <constraint firstItem="Vwd-Qp-BMC" firstAttribute="bottom" secondItem="7NG-lt-hPa" secondAttribute="top" id="ja0-Ki-fxw"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="Q9C-6M-2EU"/>
                     <connections>
                         <outlet property="LeftButton" destination="EHR-j4-hhn" id="H0j-IZ-xq2"/>
                         <outlet property="RightButton" destination="OhL-yd-tgS" id="FWm-7C-lup"/>

@@ -41,6 +41,10 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
   private var poseDetector: PoseDetector? = nil
 
     @IBOutlet weak var StartButton: UIButton!
+    @IBOutlet weak var Logo: UIImageView!
+    @IBOutlet weak var HowToPlay: UILabel!
+    @IBOutlet weak var Info1: UILabel!
+    @IBOutlet weak var Info2: UILabel!
     
 
   // MARK: - IBOutlets
@@ -54,7 +58,12 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
     self.navigationController!.navigationBar.setBackgroundImage(UIImage(), for: .default)
       self.navigationController!.navigationBar.shadowImage = UIImage()
       self.navigationController!.navigationBar.isTranslucent = true
+//    StartButton.addTarget(self, action: #selector(openCamera), for: .touchUpInside)
     view.addSubview(StartButton)
+    view.addSubview(Logo)
+    view.addSubview(HowToPlay)
+    view.addSubview(Info1)
+    view.addSubview(Info2)
     self.view.backgroundColor = .white
     
     
@@ -63,6 +72,10 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         StartButton.center = CGPoint(x: view.frame.size.width/2, y: view.frame.size.height/2)
+        Logo.center = CGPoint(x:view.frame.size.width/2, y: view.frame.size.height/2 - Logo.frame.height)
+        HowToPlay.center = CGPoint(x: view.frame.size.width/2, y: view.frame.size.height/2 + HowToPlay.frame.size.height)
+        Info1.center = CGPoint(x: view.frame.size.width/2, y: view.frame.size.height/2 + 2*Info1.frame.size.height)
+        Info2.center = CGPoint(x: view.frame.size.width/2, y: view.frame.size.height/2 + 20 + 2*Info2.frame.size.height)
     }
 
 
@@ -77,5 +90,11 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
 
     navigationController?.navigationBar.isHidden = false
   }
+    
+    @objc func openCamera(){
+        let vc = CameraViewController()
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true, completion: nil)
+    }
 }
 

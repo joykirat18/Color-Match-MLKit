@@ -94,8 +94,9 @@ class CameraViewController: UIViewController {
 //
 //        gameController.view.frame = CGRect(x: self.view.frame.width/2, y: self.view.frame.height/2 , width: self.view.frame.height/2, height: self.view.frame.width)
 //        gameController.view.center = CGPoint(x: self.view.frame.width/2, y: self.view.frame.height/2)
-        
-        present(GameViewController(), animated: true, completion: nil)
+        let vc = GameViewController()
+//        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true, completion: nil)
     
 //        gameController.view.isHidden = true
         
@@ -165,7 +166,7 @@ class CameraViewController: UIViewController {
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
     
-    previewLayer.frame = view.frame
+    previewLayer.frame = view.bounds
     
 
     LeftButton.center = CGPoint(x: view.frame.size.width/2, y: view.frame.size.height/2 - 300)
@@ -222,20 +223,19 @@ class CameraViewController: UIViewController {
           return
         }
         // Pose detected. Currently, only single person detection is supported.
-//        print(LeftButton.center) // 207,119
-//        print(RightButton.center) // 207, 719
+//        print(LeftButton.center) // 207,119 //187-100
+//        print(RightButton.center) // 207, 719 187 - 658
         poses.forEach { pose in
             let lefthand = pose.landmark(ofType: .leftIndexFinger)
-//            print(lefthand.position.x) //40 - 90
-//            print(lefthand.position.y) // 150 - 200
+//            print(lefthand.position.x) //40 - 90 // 45 - 95
+//            print(lefthand.position.y) // 150 - 200 //135 -220
 //            print(LeftButton.center.x)
 //            print(LeftButton.center.y)
-            
             if (lefthand.position.x >= LeftButton.center.y - 80 && lefthand.position.x <= LeftButton.center.y - 30) && (lefthand.position.y >= LeftButton.center.x - 50 && lefthand.position.y <= LeftButton.center.x + 15 ){
                 flags.leftFlag = true
                 flags.leftCounter += 1
                 LeftButton.backgroundColor = .green
-                LeftButton.layer.borderColor = UIColor.green.cgColor
+                LeftButton.layer.borderColor                        = UIColor.green.cgColor
             }else{
                 flags.leftCounter = 0
                 flags.leftFlag = false
@@ -243,9 +243,11 @@ class CameraViewController: UIViewController {
                 LeftButton.layer.borderColor = UIColor.red.cgColor
             }
             let righthand = pose.landmark(ofType: .rightIndexFinger)
-//            print(righthand.position.x) //370 - 440
-//            print(righthand.position.y) // 160 - 225
-            if (righthand.position.x >= RightButton.center.y - 350 && righthand.position.x <= RightButton.center.y - 280) && (righthand.position.y >= RightButton.center.x - 50 && righthand.position.y <= RightButton.center.x + 15 ){
+//            print(view.frame.size.width/2) //187
+//            print(view.frame.size.height/2) //379
+//            print(righthand.position.x) //350 - 440
+//            print(righthand.position.y)  // 150 - 225 //150-230
+            if (righthand.position.x >= RightButton.center.y - 360 && righthand.position.x <= RightButton.center.y - 280) && (righthand.position.y >= RightButton.center.x - 57 && righthand.position.y <= RightButton.center.x + 15 ){
                 flags.rightFlag = true
                 flags.rightCounter += 1
                 RightButton.backgroundColor = .green
