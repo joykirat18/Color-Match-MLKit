@@ -12,7 +12,7 @@ To play the game in your phone, clone the project, open the folder in your termi
 
 ## Demo of the Application
 
-* [Youtube Link](https://youtu.be/GFDogSVWfIY)
+* [Youtube Link](https://youtu.be/Qve3pzeGqOM)
 
 ## How to Play
 
