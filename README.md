@@ -10,6 +10,10 @@ This Color Match game uses the Ml kit pose detection library from google to dete
 
 To play the game in your phone, clone the project, open the folder in your terminal and run `pod install` and then open the new `.xcworkspace` in xcode
 
+## Demo of the Application
+
+* [Youtube Link](https://youtu.be/Qve3pzeGqOM)
+
 ## How to Play
 
 * Tap on the start button and turn your phone into landscape mode. Also give permission to use the camera.
@@ -40,6 +44,4 @@ To play the game in your phone, clone the project, open the folder in your termi
 * [Google ML kti API](https://github.com/googlesamples/mlkit/tree/master/ios/quickstarts/vision)
 * [Color Switch Game written in Sprite Kit](https://github.com/paxer/ColorSwitch)
 
-## Demo of the Application
 
-* [Youtube Link]()
