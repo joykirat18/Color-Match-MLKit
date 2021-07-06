@@ -265,17 +265,17 @@ class CameraViewController: UIViewController {
             }
             
 //            print(pose)
-//          let poseOverlayView = UIUtilities.createPoseOverlayView(
-//            forPose: pose,
-//            inViewWithBounds: strongSelf.annotationOverlayView.bounds,
-//            lineWidth: Constant.lineWidth,
-//            dotRadius: Constant.smallDotRadius,
-//            positionTransformationClosure: { (position) -> CGPoint in
-//              return strongSelf.normalizedPoint(
-//                fromVisionPoint: position, width: width, height: height)
-//            }
-//          )
-//          strongSelf.annotationOverlayView.addSubview(poseOverlayView)
+          let poseOverlayView = UIUtilities.createPoseOverlayView(
+            forPose: pose,
+            inViewWithBounds: strongSelf.annotationOverlayView.bounds,
+            lineWidth: Constant.lineWidth,
+            dotRadius: Constant.smallDotRadius,
+            positionTransformationClosure: { (position) -> CGPoint in
+              return strongSelf.normalizedPoint(
+                fromVisionPoint: position, width: width, height: height)
+            }
+          )
+          strongSelf.annotationOverlayView.addSubview(poseOverlayView)
         }
       }
     }

@@ -1,7 +1,7 @@
 platform :ios, '10.0'
 use_frameworks!
 
-project 'VisionExample.xcodeproj'
+project 'Game.xcodeproj'
 
 pod 'GoogleMLKit/BarcodeScanning'
 pod 'GoogleMLKit/FaceDetection'
@@ -14,8 +14,7 @@ pod 'GoogleMLKit/PoseDetectionAccurate'
 pod 'GoogleMLKit/SegmentationSelfie'
 pod 'GoogleMLKit/TextRecognition'
 
-target 'VisionExample' do
+target 'Game' do
 end
 
-target 'VisionExampleObjC' do
-end
+

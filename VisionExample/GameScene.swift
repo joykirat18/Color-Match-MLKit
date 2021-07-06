@@ -122,14 +122,14 @@ class GameScene: SKScene {
     }
     
     func GameOver() {
-        run(SKAction.playSoundFileNamed("game_over", waitForCompletion: true)) {
-            UserDefaults.standard.set(self.score, forKey: "RecentScore")
-            if self.score > UserDefaults.standard.integer(forKey: "HighScore") {
-                UserDefaults.standard.set(self.score, forKey: "HighScore")
-            }
-            let menuScene = MenuScene(size: self.view!.bounds.size)
-            self.view!.presentScene(menuScene)
-        }
+//        run(SKAction.playSoundFileNamed("game_over", waitForCompletion: true)) {
+//            UserDefaults.standard.set(self.score, forKey: "RecentScore")
+//            if self.score > UserDefaults.standard.integer(forKey: "HighScore") {
+//                UserDefaults.standard.set(self.score, forKey: "HighScore")
+//            }
+//            let menuScene = MenuScene(size: self.view!.bounds.size)
+//            self.view!.presentScene(menuScene)
+//        }
         
             
 //        }

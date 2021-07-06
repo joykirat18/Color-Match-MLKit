@@ -25,6 +25,7 @@
 		7202DC6A20D0C1A300034C35 /* image_has_text.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7202DC6520D0C1A300034C35 /* image_has_text.jpg */; };
 		7202DC6B20D0C1A300034C35 /* barcode_128.png in Resources */ = {isa = PBXBuildFile; fileRef = 7202DC6620D0C1A300034C35 /* barcode_128.png */; };
 		7202DC6C20D0C1A300034C35 /* beach.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7202DC6720D0C1A300034C35 /* beach.jpg */; };
+		96151D148AEA1869DC8C394A /* Pods_Game.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 383FA34629A61B6A9D078E54 /* Pods_Game.framework */; };
 		97F3BF132660D65500F9EB48 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F3BF122660D65500F9EB48 /* GameViewController.swift */; };
 		97F3BF152660DB7E00F9EB48 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F3BF142660DB7E00F9EB48 /* GameScene.swift */; };
 		97F3BF172660EB7F00F9EB48 /* variables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F3BF162660EB7F00F9EB48 /* variables.swift */; };
@@ -34,18 +35,15 @@
 		97F3BF1F266157B400F9EB48 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F3BF1E266157B400F9EB48 /* MenuScene.swift */; };
 		97F3BF2126615E8800F9EB48 /* clockwise.png in Resources */ = {isa = PBXBuildFile; fileRef = 97F3BF2026615E8800F9EB48 /* clockwise.png */; };
 		97F3BF2326615EE300F9EB48 /* antiClockwise.png in Resources */ = {isa = PBXBuildFile; fileRef = 97F3BF2226615EE300F9EB48 /* antiClockwise.png */; };
-		98C5F75334215954113814D9 /* Pods_VisionExampleObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03E97DFDCBAD2E7F9774AAB1 /* Pods_VisionExampleObjC.framework */; };
 		A4F89299243BB4BF00B58767 /* bird.tflite in Resources */ = {isa = PBXBuildFile; fileRef = A4F89297243BB4BE00B58767 /* bird.tflite */; };
 		A4F8929A243BB4BF00B58767 /* bird.tflite in Resources */ = {isa = PBXBuildFile; fileRef = A4F89297243BB4BE00B58767 /* bird.tflite */; };
 		A4F8929B243BB4BF00B58767 /* bird.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A4F89298243BB4BF00B58767 /* bird.jpg */; };
 		A4F8929C243BB4BF00B58767 /* bird.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A4F89298243BB4BF00B58767 /* bird.jpg */; };
 		BB287B3920729CE90069707A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB287B3820729CE90069707A /* AppDelegate.swift */; };
 		BB287B3E20729CE90069707A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB287B3C20729CE90069707A /* Main.storyboard */; };
-		C72756037A0A019285754CB5 /* Pods_VisionExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F92A9E8B50B1105E7FAA221 /* Pods_VisionExample.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		03E97DFDCBAD2E7F9774AAB1 /* Pods_VisionExampleObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VisionExampleObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1001E6F620CEE0DD00445CB3 /* UIUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIUtilities.swift; sourceTree = "<group>"; };
 		1001E6F820CF021E00445CB3 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		1001E6FC20CF0C8F00445CB3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -53,13 +51,15 @@
 		10224B5B2087E49F00A77316 /* MLKitExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MLKitExtensions.swift; sourceTree = "<group>"; };
 		10224B702087E5A900A77316 /* grace_hopper.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = grace_hopper.jpg; path = Resources/grace_hopper.jpg; sourceTree = "<group>"; };
 		1077670D210FBBB6007A19A7 /* liberty.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = liberty.jpg; sourceTree = "<group>"; };
-		10E114E020E5CBAA0013E4A4 /* VisionExampleObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VisionExampleObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		10E114E020E5CBAA0013E4A4 /* GameObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GameObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		144F4843D86091952514C2C9 /* Pods-VisionExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VisionExample.debug.xcconfig"; path = "Target Support Files/Pods-VisionExample/Pods-VisionExample.debug.xcconfig"; sourceTree = "<group>"; };
+		383FA34629A61B6A9D078E54 /* Pods_Game.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Game.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7202DC6420D0C1A300034C35 /* qr_code.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = qr_code.jpg; path = Resources/qr_code.jpg; sourceTree = "<group>"; };
 		7202DC6520D0C1A300034C35 /* image_has_text.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = image_has_text.jpg; path = Resources/image_has_text.jpg; sourceTree = "<group>"; };
 		7202DC6620D0C1A300034C35 /* barcode_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = barcode_128.png; path = Resources/barcode_128.png; sourceTree = "<group>"; };
 		7202DC6720D0C1A300034C35 /* beach.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = beach.jpg; path = Resources/beach.jpg; sourceTree = "<group>"; };
-		7F92A9E8B50B1105E7FAA221 /* Pods_VisionExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VisionExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		80FD46FD183642D46D703383 /* Pods-Game.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Game.release.xcconfig"; path = "Target Support Files/Pods-Game/Pods-Game.release.xcconfig"; sourceTree = "<group>"; };
+		86FE4C5CA96ADD582990DD83 /* Pods-Game.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Game.debug.xcconfig"; path = "Target Support Files/Pods-Game/Pods-Game.debug.xcconfig"; sourceTree = "<group>"; };
 		97F3BF122660D65500F9EB48 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		97F3BF142660DB7E00F9EB48 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		97F3BF162660EB7F00F9EB48 /* variables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = variables.swift; sourceTree = "<group>"; };
@@ -71,13 +71,11 @@
 		97F3BF2226615EE300F9EB48 /* antiClockwise.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = antiClockwise.png; sourceTree = "<group>"; };
 		A4F89297243BB4BE00B58767 /* bird.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; name = bird.tflite; path = Resources/bird.tflite; sourceTree = "<group>"; };
 		A4F89298243BB4BF00B58767 /* bird.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = bird.jpg; path = Resources/bird.jpg; sourceTree = "<group>"; };
-		BB287B3520729CE90069707A /* VisionExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VisionExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB287B3520729CE90069707A /* Game.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Game.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB287B3820729CE90069707A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BB287B3D20729CE90069707A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BB287B4420729CE90069707A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C7EB1BEE0C4C356FF40F059C /* Pods-VisionExampleObjC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VisionExampleObjC.release.xcconfig"; path = "Target Support Files/Pods-VisionExampleObjC/Pods-VisionExampleObjC.release.xcconfig"; sourceTree = "<group>"; };
 		D973FDFD8E5BE972C844A065 /* Pods-VisionExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VisionExample.release.xcconfig"; path = "Target Support Files/Pods-VisionExample/Pods-VisionExample.release.xcconfig"; sourceTree = "<group>"; };
-		FD3FE0E74DB33F7CEF08A949 /* Pods-VisionExampleObjC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VisionExampleObjC.debug.xcconfig"; path = "Target Support Files/Pods-VisionExampleObjC/Pods-VisionExampleObjC.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,7 +83,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				98C5F75334215954113814D9 /* Pods_VisionExampleObjC.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,7 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C72756037A0A019285754CB5 /* Pods_VisionExample.framework in Frameworks */,
+				96151D148AEA1869DC8C394A /* Pods_Game.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,8 +117,8 @@
 			children = (
 				144F4843D86091952514C2C9 /* Pods-VisionExample.debug.xcconfig */,
 				D973FDFD8E5BE972C844A065 /* Pods-VisionExample.release.xcconfig */,
-				FD3FE0E74DB33F7CEF08A949 /* Pods-VisionExampleObjC.debug.xcconfig */,
-				C7EB1BEE0C4C356FF40F059C /* Pods-VisionExampleObjC.release.xcconfig */,
+				86FE4C5CA96ADD582990DD83 /* Pods-Game.debug.xcconfig */,
+				80FD46FD183642D46D703383 /* Pods-Game.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -129,8 +126,7 @@
 		7662F60CE427BDF3641B1C4C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7F92A9E8B50B1105E7FAA221 /* Pods_VisionExample.framework */,
-				03E97DFDCBAD2E7F9774AAB1 /* Pods_VisionExampleObjC.framework */,
+				383FA34629A61B6A9D078E54 /* Pods_Game.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -150,8 +146,8 @@
 		BB287B3620729CE90069707A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BB287B3520729CE90069707A /* VisionExample.app */,
-				10E114E020E5CBAA0013E4A4 /* VisionExampleObjC.app */,
+				BB287B3520729CE90069707A /* Game.app */,
+				10E114E020E5CBAA0013E4A4 /* GameObjC.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -190,29 +186,26 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		10E114DF20E5CBAA0013E4A4 /* VisionExampleObjC */ = {
+		10E114DF20E5CBAA0013E4A4 /* GameObjC */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 10E1150F20E5CBAE0013E4A4 /* Build configuration list for PBXNativeTarget "VisionExampleObjC" */;
+			buildConfigurationList = 10E1150F20E5CBAE0013E4A4 /* Build configuration list for PBXNativeTarget "GameObjC" */;
 			buildPhases = (
-				359FB568445E73AD261CD7CD /* [CP] Check Pods Manifest.lock */,
 				10E114DC20E5CBAA0013E4A4 /* Sources */,
 				10E114DD20E5CBAA0013E4A4 /* Frameworks */,
 				10E114DE20E5CBAA0013E4A4 /* Resources */,
-				43F8C75AEC3987782A636595 /* [CP] Embed Pods Frameworks */,
-				0E7DB1A266A81700AA692F5B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = VisionExampleObjC;
+			name = GameObjC;
 			productName = VisionExampleObjC;
-			productReference = 10E114E020E5CBAA0013E4A4 /* VisionExampleObjC.app */;
+			productReference = 10E114E020E5CBAA0013E4A4 /* GameObjC.app */;
 			productType = "com.apple.product-type.application";
 		};
-		BB287B3420729CE90069707A /* VisionExample */ = {
+		BB287B3420729CE90069707A /* Game */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BB287B4720729CE90069707A /* Build configuration list for PBXNativeTarget "VisionExample" */;
+			buildConfigurationList = BB287B4720729CE90069707A /* Build configuration list for PBXNativeTarget "Game" */;
 			buildPhases = (
 				6F6524B9C2EBAC6D5AD86A84 /* [CP] Check Pods Manifest.lock */,
 				BB287B3120729CE90069707A /* Sources */,
@@ -225,9 +218,9 @@
 			);
 			dependencies = (
 			);
-			name = VisionExample;
+			name = Game;
 			productName = "ml-kit-sampler";
-			productReference = BB287B3520729CE90069707A /* VisionExample.app */;
+			productReference = BB287B3520729CE90069707A /* Game.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -251,7 +244,7 @@
 					};
 				};
 			};
-			buildConfigurationList = BB287B3020729CE90069707A /* Build configuration list for PBXProject "VisionExample" */;
+			buildConfigurationList = BB287B3020729CE90069707A /* Build configuration list for PBXProject "Game" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -264,8 +257,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				BB287B3420729CE90069707A /* VisionExample */,
-				10E114DF20E5CBAA0013E4A4 /* VisionExampleObjC */,
+				BB287B3420729CE90069707A /* Game */,
+				10E114DF20E5CBAA0013E4A4 /* GameObjC */,
 			);
 		};
 /* End PBXProject section */
@@ -311,96 +304,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0E7DB1A266A81700AA692F5B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VisionExampleObjC/Pods-VisionExampleObjC-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/MLKitFaceDetection/GoogleMVFaceDetectorResources.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/MLKitImageLabeling/MLKitImageLabelingResources.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/MLKitObjectDetection/MLKitObjectDetectionResources.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/MLKitObjectDetectionCommon/MLKitObjectDetectionCommonResources.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/MLKitPoseDetection/MLKitPoseDetectionFastResources.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/MLKitPoseDetectionAccurate/MLKitPoseDetectionAccurateResources.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/MLKitPoseDetectionCommon/MLKitPoseDetectionCommonResources.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/MLKitSegmentationCommon/MLKitSegmentationCommonResources.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/MLKitSegmentationSelfie/MLKitSegmentationSelfieResources.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/MLKitTextRecognition/GoogleMVTextDetectorResources.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/MLKitXenoCommon/MLKitXenoResources.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMVFaceDetectorResources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MLKitImageLabelingResources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MLKitObjectDetectionResources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MLKitObjectDetectionCommonResources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MLKitPoseDetectionFastResources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MLKitPoseDetectionAccurateResources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MLKitPoseDetectionCommonResources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MLKitSegmentationCommonResources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MLKitSegmentationSelfieResources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMVTextDetectorResources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MLKitXenoResources.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VisionExampleObjC/Pods-VisionExampleObjC-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		359FB568445E73AD261CD7CD /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-VisionExampleObjC-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		43F8C75AEC3987782A636595 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VisionExampleObjC/Pods-VisionExampleObjC-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleDataTransport/GoogleDataTransport.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
-				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
-				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleDataTransport.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VisionExampleObjC/Pods-VisionExampleObjC-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		6F6524B9C2EBAC6D5AD86A84 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -416,7 +319,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-VisionExample-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Game-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -429,7 +332,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VisionExample/Pods-VisionExample-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Game/Pods-Game-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/MLKitFaceDetection/GoogleMVFaceDetectorResources.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/MLKitImageLabeling/MLKitImageLabelingResources.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/MLKitObjectDetection/MLKitObjectDetectionResources.bundle",
@@ -458,7 +361,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VisionExample/Pods-VisionExample-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Game/Pods-Game-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B064CAA30FF050A2453CBC96 /* [CP] Embed Pods Frameworks */ = {
@@ -467,7 +370,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VisionExample/Pods-VisionExample-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Game/Pods-Game-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleDataTransport/GoogleDataTransport.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
@@ -488,7 +391,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VisionExample/Pods-VisionExample-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Game/Pods-Game-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -534,7 +437,6 @@
 /* Begin XCBuildConfiguration section */
 		10E1150920E5CBAE0013E4A4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FD3FE0E74DB33F7CEF08A949 /* Pods-VisionExampleObjC.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -550,7 +452,6 @@
 		};
 		10E1150A20E5CBAE0013E4A4 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C7EB1BEE0C4C356FF40F059C /* Pods-VisionExampleObjC.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -614,7 +515,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -668,7 +569,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -679,7 +580,7 @@
 		};
 		BB287B4820729CE90069707A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 144F4843D86091952514C2C9 /* Pods-VisionExample.debug.xcconfig */;
+			baseConfigurationReference = 86FE4C5CA96ADD582990DD83 /* Pods-Game.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -700,7 +601,7 @@
 		};
 		BB287B4920729CE90069707A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D973FDFD8E5BE972C844A065 /* Pods-VisionExample.release.xcconfig */;
+			baseConfigurationReference = 80FD46FD183642D46D703383 /* Pods-Game.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -722,7 +623,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		10E1150F20E5CBAE0013E4A4 /* Build configuration list for PBXNativeTarget "VisionExampleObjC" */ = {
+		10E1150F20E5CBAE0013E4A4 /* Build configuration list for PBXNativeTarget "GameObjC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				10E1150920E5CBAE0013E4A4 /* Debug */,
@@ -731,7 +632,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BB287B3020729CE90069707A /* Build configuration list for PBXProject "VisionExample" */ = {
+		BB287B3020729CE90069707A /* Build configuration list for PBXProject "Game" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BB287B4520729CE90069707A /* Debug */,
@@ -740,7 +641,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BB287B4720729CE90069707A /* Build configuration list for PBXNativeTarget "VisionExample" */ = {
+		BB287B4720729CE90069707A /* Build configuration list for PBXNativeTarget "Game" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BB287B4820729CE90069707A /* Debug */,
